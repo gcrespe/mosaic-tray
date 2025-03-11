@@ -1,0 +1,101 @@
+
+/* Make the body fill the viewport properly */
+body {
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  position: relative;
+  color: #CCCCCC;
+  height: 100vh;
+  width: 100vw; /* Ensure full width */
+  background-color: #1E1E1E;
+  font-family: sans-serif;
+  overflow: hidden; /* Prevent both scrollbars */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* App container should take full width */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 110%; /* Ensure full width */
+  height: 100vh;
+  overflow: hidden;
+}
+
+:root {
+  --scrollbar-width: 0px;
+}
+
+.content-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 2%;
+  width: 100%;
+  box-sizing: border-box;
+  
+  /* Add padding-right to compensate for scrollbar width */
+  padding-right: 28px; /* 20px original padding + 8px scrollbar width */
+  
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #1E1E1E #1E1E1E;
+  scroll-behavior: smooth; /* Optional for smoother scrolling */
+  padding-top: 20px; 
+  font-size: 12px;
+}
+
+/* Separate WebKit selectors to avoid nesting issues */
+.content-container::-webkit-scrollbar {
+  width: 8px; /* Narrow, elegant width */
+}
+
+.content-container::-webkit-scrollbar-track {
+  background: #2a2a2a; /* Slightly lighter than your background */
+  border-radius: 4px;
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background: #444444; /* Medium gray that's visible but not distracting */
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.content-container::-webkit-scrollbar-thumb:hover {
+  background: #555555; /* Slightly lighter on hover for feedback */
+}
+
+/* Main content improvements */
+.main-content {
+  display: flex;
+  width: 100%;
+  flex-direction: column; 
+  background-color: #1E1E1E;
+  overflow: hidden;
+  padding-top: 10px;
+}
+
+/* Suggested additions for Calendar and ItemList components */
+/* Add these to their respective CSS files */
+
+/* For Calendar component */
+.calendar-container {
+  box-sizing: border-box;
+}
+
+/* For ItemList component */
+.item-list-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar while keeping functionality - Sass compatible syntax */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

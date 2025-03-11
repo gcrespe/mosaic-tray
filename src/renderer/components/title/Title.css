@@ -1,0 +1,68 @@
+.titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6vh;
+  width: 100%;
+  -webkit-app-region: drag; /* Makes the area draggable */
+  user-select: none;
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove any padding */
+  position: absolute; /* Position it absolutely */
+  top: 0; /* Place it at the very top */
+  left: 0; /* Align to the left edge */
+  box-sizing: border-box; /* Include padding in width/height calculation */
+  transition: opacity 0.1s ease;
+}
+
+.window-title {
+  font-size: 16px;
+  margin-top: 2%;
+}
+
+.window-title-container {
+  margin-left: 5%;
+  margin-top: 5%;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+}
+
+.window-icon {
+  width: 16px; /* Adjust size as needed */
+  height: 16px;
+  object-fit: contain;
+}
+
+.titlebar-buttons {
+  margin-right: 3%;
+  margin-top: 5%;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 20%;
+  justify-content: space-around;
+  -webkit-app-region: no-drag; /* Buttons shouldn't be draggable */
+}
+
+.titlebar-button {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.settings-button:hover {
+  background-color: #3c3c3c;
+}
+
+.close-button:hover {
+  background-color: #e81123;
+}
