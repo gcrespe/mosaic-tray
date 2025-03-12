@@ -32,17 +32,9 @@ export default function App() {
   
   return (
     <Router>
-      <div className="app-container">
-        <TitleBar opacity={titlebarOpacity} />
-        <div 
-          ref={contentRef}
-          className="content-container"
-        >
-          <Routes>
-            <Route path="/" element={<MainContent />} />
-          </Routes>
-        </div>
-      </div>
+      <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
     </Router>
   );
 }
