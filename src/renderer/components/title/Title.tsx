@@ -24,12 +24,6 @@ const TitleBar = ({ opacity = 1 }: TitleBarProps) => {
       }}
     >
       <div className="window-title-container">
-        <img
-          src={require('../../../../assets/icon.png')}
-          alt="Mosaic Icon"
-          className="window-icon"
-        />
-        <div className="window-title">Mosaic</div>
       </div>
       <div className="titlebar-buttons">
         <button

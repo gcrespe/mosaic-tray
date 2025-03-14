@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import TitleBar from './components/title/Title';
 import Calendar from './components/calendar/Calendar';
 import ItemList from './components/itemList/ItemList';
+import EventModal from './components/eventModal/EventModal';
 import './App.css';
 
 export default function App() {
@@ -14,13 +15,8 @@ export default function App() {
     if (!contentContainer) return;
     
     const handleScroll = () => {
-      // Get current scroll position
       const scrollPos = contentContainer.scrollTop;
-      
-      // Define the scroll range where opacity changes
-      const scrollThreshold = 150; // Adjust this value to control fade speed
-      
-      // Calculate opacity based on scroll position
+      const scrollThreshold = 100;
       const newOpacity = Math.max(0, 1 - (scrollPos / scrollThreshold));
       
       setTitlebarOpacity(newOpacity);
@@ -32,46 +28,103 @@ export default function App() {
   
   return (
     <Router>
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+      <div className="app-container">
+        <TitleBar opacity={titlebarOpacity} />
+        <div 
+          ref={contentRef}
+          className="content-container"
+        >
+          <Routes>
+            <Route path="/" element={<MainContent />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
 
+// Define interface for item objects
+export interface Item {
+  id: number;
+  title: string;
+  description: string;
+  date: Date;
+}
+
+// Define interface for new event data from the modal
+export interface NewEvent {
+  title: string;
+  description: string;
+}
+
 function MainContent() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
- 
-  // Sample items - in a real app, you'd fetch these from a data source
-  const sampleItems = [
-    {
-      id: 1,
-      title: "Team Meeting",
-      description: "Discuss project roadmap and delivery timelines",
-      date: new Date(2025, 2, 12) // March 12, 2025
-    },
-    {
-      id: 2,
-      title: "Doctor Appointment",
-      description: "Annual checkup",
-      date: new Date(2025, 2, 15) // March 15, 2025
-    },
-    {
-      id: 3,
-      title: "Birthday Party",
-      description: "Don't forget to bring a gift!",
-      date: new Date(2025, 2, 20) // March 20, 2025
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [items, setItems] = useState<Item[]>([]);
+
+  // Load saved items from localStorage on component mount
+  useEffect(() => {
+    const savedItems = localStorage.getItem('calendarItems');
+    if (savedItems) {
+      // Parse the saved items and convert date strings back to Date objects
+      const parsedItems = JSON.parse(savedItems).map((item: any) => ({
+        ...item,
+        date: new Date(item.date)
+      }));
+      setItems(parsedItems);
     }
-  ];
- 
+  }, []);
+
+  // Save items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('calendarItems', JSON.stringify(items));
+  }, [items]);
+
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
   };
- 
+
+  const handleAddEvent = () => {
+    setShowModal(true);
+  };
+
+  const handleSaveEvent = (newEvent: NewEvent) => {
+    // Generate a unique ID for the new event
+    const newId = items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
+    
+    // Create the event with the selected date
+    const eventWithDate: Item = {
+      ...newEvent,
+      id: newId,
+      date: selectedDate || new Date()
+    };
+    
+    // Add the new event to the items array
+    setItems([...items, eventWithDate]);
+    
+    // Close the modal
+    setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="main-content">
-      <Calendar onDateSelect={handleDateSelect} />
-      <ItemList items={sampleItems} selectedDate={selectedDate} />
+      <Calendar onDateSelect={handleDateSelect} items={items} />
+      <ItemList 
+        items={items} 
+        selectedDate={selectedDate} 
+        onAddEvent={handleAddEvent} 
+      />
+      {showModal && (
+        <EventModal 
+          onSave={handleSaveEvent} 
+          onCancel={handleCloseModal}
+          selectedDate={selectedDate}
+        />
+      )}
     </div>
   );
 }

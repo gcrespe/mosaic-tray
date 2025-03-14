@@ -1,27 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ItemList.css';
-
-// Define interface for item objects
-interface Item {
-  id: number;
-  title: string;
-  description: string;
-  date: Date;
-}
+import { Item } from '../../App';
 
 // Define props interface
 interface ItemListProps {
   items: Item[];
   selectedDate: Date | null;
+  onAddEvent: () => void;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ items, selectedDate }) => {
+const ItemList: React.FC<ItemListProps> = ({ items, selectedDate, onAddEvent }) => {
   // Add a key state to force re-render and animation reset
   const [animationKey, setAnimationKey] = useState(0);
-  
+ 
   // Reference to previous date to detect changes
   const prevDateRef = useRef<Date | null>(null);
-  
+ 
   // Update the key whenever selectedDate changes
   useEffect(() => {
     // Only trigger animation if the date actually changed
@@ -55,11 +49,11 @@ const ItemList: React.FC<ItemListProps> = ({ items, selectedDate }) => {
     <div className="item-list-container">
       <div className="date-header-container">
         <h2 className="date-header">{formattedDate}</h2>
-        <button className="add-event-button">
+        <button className="add-event-button" onClick={onAddEvent}>
           <span className="add-icon">+</span>
         </button>
       </div>
-      
+     
       <div className="items-wrapper">
         {selectedDate ? (
           filteredItems.length > 0 ? (
