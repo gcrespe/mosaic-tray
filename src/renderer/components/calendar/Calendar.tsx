@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Calendar.css';
-import { Item } from '../../App';
+import { Item } from '../mainContent/MainContent';
 
 interface CalendarProps {
   onDateSelect?: (date: Date) => void;

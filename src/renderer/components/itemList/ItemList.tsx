@@ -1,8 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ItemList.css';
-import { Item } from '../../App';
+import { Item } from '../mainContent/MainContent';
 
-// Define props interface
+interface ItemListProps {
+  items: Item[];
+  selectedDate: Date | null;
+  onAddEvent: () => void;
+}
+
+const formatTime = (time: string | undefined): string => {
+  if (!time) return ""; // Handle missing time
+  
+  try {
+    const [hourStr, minuteStr] = time.split(':');
+    const hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+    
+    // Check if parsing resulted in valid numbers
+    if (isNaN(hour) || isNaN(minute)) return "";
+    
+    const period = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12; // Convert 0 to 12 for 12 AM
+    
+    return `${displayHour}:${minute.toString().padStart(2, '0')} ${period}`;
+  } catch (error) {
+    console.error("Error formatting time:", error);
+    return "";
+  }
+};
+
 interface ItemListProps {
   items: Item[];
   selectedDate: Date | null;
@@ -61,6 +87,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, selectedDate, onAddEvent }) 
               {filteredItems.map((item) => (
                 <li key={item.id} className="item-card">
                   <h3 className="item-title">{item.title}</h3>
+                  {item.time && <p className="item-time">{formatTime(item.time)}</p>}
                   <p className="item-description">{item.description}</p>
                 </li>
               ))}

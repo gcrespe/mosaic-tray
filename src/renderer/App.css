@@ -2,8 +2,6 @@
 /* Make the body fill the viewport properly */
 body {
   color: #CCCCCC;
-  height: 100vh;
-  width: 100vw; /* Ensure full width */
   background-color: #1E1E1E;
   font-family: sans-serif;
   overflow-y: hidden;
@@ -14,40 +12,22 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  width: 100vw; /* Ensure full width */
   height: 100vh;
 }
 
 :root {
-  --scrollbar-width: 0px;
+  --scrollbar-width: 10px;
 }
 
 .content-container {
   flex: 1;
   overflow-y: auto;
-  width: 100%;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: #1E1E1E #1E1E1E;
   scroll-behavior: smooth; /* Optional for smoother scrolling */
   padding-top: 5%; 
   font-size: 12px;
-}
-
-/* Separate WebKit selectors to avoid nesting issues */
-.content-container::-webkit-scrollbar {
-  width: 0px; /* Narrow, elegant width */
-}
-
-.content-container::-webkit-scrollbar-track {
-  background: #2a2a2a; /* Slightly lighter than your background */
-  border-radius: 4px;
-}
-
-.content-container::-webkit-scrollbar-thumb {
-  background: #444444; /* Medium gray that's visible but not distracting */
-  border-radius: 4px;
-  transition: 0.2s;
 }
 
 .content-container::-webkit-scrollbar-thumb:hover {
@@ -57,11 +37,11 @@ body {
 /* Main content improvements */
 .main-content {
   display: flex;
-  width: 100%;
   flex-direction: column; 
   background-color: #1E1E1E;
   overflow: hidden;
   padding-top: 10px;
+  width: 100vw;
 }
 
 /* Suggested additions for Calendar and ItemList components */
@@ -76,14 +56,4 @@ body {
 .item-list-container {
   width: 100%;
   box-sizing: border-box;
-}
-
-/* Hide scrollbar while keeping functionality - Sass compatible syntax */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
